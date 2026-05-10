@@ -9,9 +9,10 @@ app = Flask(__name__)
 CORS(app)
 
 # Load the model and scalers
-MODEL_PATH = r"D:\alter\model_epoch_10_val_loss_0.00.keras"
-X_SCALER_PATH = r"D:\alter\x_scaler.pkl"
-Y_SCALER_PATH = r"D:\alter\y_scaler.pkl"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # points to project/ folder
+MODEL_PATH = os.path.join(BASE_DIR, "model_epoch_10_val_loss_0.00.keras")
+X_SCALER_PATH = os.path.join(BASE_DIR, "x_scaler.pkl")
+Y_SCALER_PATH = os.path.join(BASE_DIR, "y_scaler.pkl")
 
 if os.path.exists(MODEL_PATH):
     print(f"Loading model from {MODEL_PATH}...")
