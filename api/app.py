@@ -5,9 +5,13 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import tensorflow as tf
 
+# Optimize for low-memory environments (Render Free Tier)
+tf.config.threading.set_intra_op_parallelism_threads(1)
+tf.config.threading.set_inter_op_parallelism_threads(1)
+
 app = Flask(__name__)
-# Explicitly allow Vercel origin and local development
-CORS(app, resources={r"/*": {"origins": ["https://river-ckxr.vercel.app", "http://localhost:5173"]}})
+# Allow all origins to rule out CORS issues during 502 errors
+CORS(app, supports_credentials=True)
 
 @app.route('/')
 def home():
@@ -105,8 +109,9 @@ def predict():
         # Reshape to (1, 32)
         input_data = input_data.reshape(1, -1)
         
-        # Run prediction
-        scaled_prediction = model.predict(input_data)
+        # Run prediction using direct call (more memory efficient than .predict())
+        # We use training=False to ensure dropout/batchnorm are in inference mode
+        scaled_prediction = model(input_data, training=False).numpy()
         print(f"DEBUG: Raw model prediction (scaled): {scaled_prediction}")
         
         # Inverse transform the prediction
