@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Load the model and scalers
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # points to project/ folder
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # points to project/ folder
 MODEL_PATH = os.path.join(BASE_DIR, "model_epoch_10_direct.keras")
 X_SCALER_PATH = os.path.join(BASE_DIR, "x_scaler.pkl")
 Y_SCALER_PATH = os.path.join(BASE_DIR, "y_scaler.pkl")
@@ -121,3 +121,4 @@ def predict():
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
+app=app
