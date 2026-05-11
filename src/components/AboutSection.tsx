@@ -199,7 +199,7 @@ export default function AboutSection() {
             }}
           />
           <Typography variant="h2" sx={{ mb: 2, fontSize: { xs: '1.8rem', md: '2.5rem' } }}>
-            Flood Streamflow Prediction Challenge
+            River Streamflow Prediction Challenge
           </Typography>
           <Typography variant="body1" sx={{ color: 'text.secondary', maxWidth: 680, mx: 'auto', lineHeight: 1.8 }}>
             In the Ganga-Brahmaputra basin — one of the most flood-prone river networks on Earth — thousands of lives and millions of hectares of farmland are threatened every monsoon season. Traditional rule-based systems struggle with nonlinear, memory-dependent river dynamics. This challenge harnesses machine learning to change that.
@@ -364,7 +364,7 @@ export default function AboutSection() {
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, mb: 1 }}>
             <WaterIcon sx={{ color: 'primary.main', fontSize: 20 }} />
             <Typography variant="body2" sx={{ fontWeight: 700, color: 'text.primary' }}>
-              Flood Streamflow Prediction Challenge
+              River Streamflow Prediction Challenge
             </Typography>
           </Box>
           <Typography variant="caption" sx={{ color: 'text.secondary' }}>

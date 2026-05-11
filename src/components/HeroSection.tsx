@@ -174,7 +174,7 @@ export default function HeroSection() {
             WebkitTextFillColor: 'transparent',
           }}
         >
-          Flood Streamflow
+          River Streamflow
           <br />
           Prediction
         </Typography>

@@ -266,7 +266,7 @@ export default function ResultCard({ value, delta, confidence, category }: Props
       >
         <ErrorOutlineIcon sx={{ fontSize: 16, color: 'text.secondary', mt: 0.2, flexShrink: 0 }} />
         <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5 }}>
-          Prediction is made using a physics-informed ensemble model trained on Ganga-Brahmaputra hydro-meteorological data. KGE ≥ 0.75 indicates a good model. Persistence baseline: KGE = 0.9978.
+            *The predicted flow rate is an estimation for the next 24 hours (T+1), based on historical patterns and current conditions. This tool is intended for forecasting and awareness purposes only.
         </Typography>
       </Box>
     </Box>
