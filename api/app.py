@@ -17,7 +17,7 @@ Y_SCALER_PATH = os.path.join(BASE_DIR, "y_scaler.pkl")
 if os.path.exists(MODEL_PATH):
     print(f"Loading model from {MODEL_PATH}...")
     try:
-        model = tf.keras.models.load_model(MODEL_PATH)
+        model = tf.keras.models.load_model(MODEL_PATH,compile=False)
         print("Model loaded successfully.")
     except Exception as e:
         print(f"Error loading model: {e}")
