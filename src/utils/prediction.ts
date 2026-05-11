@@ -43,7 +43,7 @@ export type PredictionResult = {
 export async function predictStreamflow(f: InputFeatures): Promise<PredictionResult> {
   let value = 0;
   try {
-    const response = await fetch('http://localhost:5000/predict', {
+    const response = await fetch('https://river-fxb5.onrender.com//predict', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
