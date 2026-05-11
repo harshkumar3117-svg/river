@@ -6,19 +6,30 @@ from flask_cors import CORS
 import tensorflow as tf
 
 app = Flask(__name__)
-CORS(app)
+# Explicitly allow Vercel origin and local development
+CORS(app, resources={r"/*": {"origins": ["https://river-ckxr.vercel.app", "http://localhost:5173"]}})
+
+@app.route('/')
+def home():
+    return jsonify({
+        "status": "online",
+        "message": "River Streamflow Prediction API is running",
+        "model_loaded": model is not None
+    })
 
 # Load the model and scalers
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # points to project/ folder
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, "model_epoch_10_direct.keras")
 X_SCALER_PATH = os.path.join(BASE_DIR, "x_scaler.pkl")
 Y_SCALER_PATH = os.path.join(BASE_DIR, "y_scaler.pkl")
 
+print(f"DEBUG: Starting application in {BASE_DIR}")
+
 if os.path.exists(MODEL_PATH):
-    print(f"Loading model from {MODEL_PATH}...")
+    print(f"DEBUG: Loading model from {MODEL_PATH}...")
     try:
-        model = tf.keras.models.load_model(MODEL_PATH,compile=False,safe_mode=False)
-        print("Model loaded successfully.")
+        model = tf.keras.models.load_model(MODEL_PATH, compile=False, safe_mode=False)
+        print("DEBUG: Model loaded successfully.")
     except Exception as e:
         print(f"Error loading model: {e}")
         model = None
@@ -56,6 +67,7 @@ FEATURE_KEYS = [
 
 @app.route('/predict', methods=['POST'])
 def predict():
+    print("DEBUG: Received prediction request")
     if model is None or x_scaler is None or y_scaler is None:
         return jsonify({'error': 'Model or Scalers not loaded on the server.'}), 500
     
@@ -120,6 +132,5 @@ def predict():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    port=int(os.environ.get("PORT",10000))
-    app.run(host='0.0.0.0', port=port)
-app=app
+    port=int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port)
