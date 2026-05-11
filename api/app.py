@@ -1,16 +1,22 @@
 import os
+import gc
 import numpy as np
 import joblib
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import tensorflow as tf
 
-# Optimize for low-memory environments (Render Free Tier)
+# Set environment variables for memory and CPU control BEFORE anything else
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+os.environ['TF_NUM_INTRAOP_THREADS'] = '1'
+os.environ['TF_NUM_INTEROP_THREADS'] = '1'
+
+# Optimize for low-memory environments
 tf.config.threading.set_intra_op_parallelism_threads(1)
 tf.config.threading.set_inter_op_parallelism_threads(1)
 
 app = Flask(__name__)
-# Allow all origins to rule out CORS issues during 502 errors
+# Allow all origins
 CORS(app, supports_credentials=True)
 
 @app.route('/')
@@ -34,6 +40,8 @@ if os.path.exists(MODEL_PATH):
     try:
         model = tf.keras.models.load_model(MODEL_PATH, compile=False, safe_mode=False)
         print("DEBUG: Model loaded successfully.")
+        # Force garbage collection to free up RAM used during loading
+        gc.collect()
     except Exception as e:
         print(f"Error loading model: {e}")
         model = None
@@ -43,14 +51,16 @@ else:
 
 try:
     x_scaler = joblib.load(X_SCALER_PATH)
-    print("X Scaler loaded successfully.")
+    print("DEBUG: X Scaler loaded successfully.")
+    gc.collect()
 except Exception as e:
     print(f"Error loading X scaler: {e}")
     x_scaler = None
 
 try:
     y_scaler = joblib.load(Y_SCALER_PATH)
-    print("Y Scaler loaded successfully.")
+    print("DEBUG: Y Scaler loaded successfully.")
+    gc.collect()
 except Exception as e:
     print(f"Error loading Y scaler: {e}")
     y_scaler = None
